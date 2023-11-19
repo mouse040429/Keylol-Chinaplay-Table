@@ -8,7 +8,8 @@ from bs4 import BeautifulSoup
 
 
 def checkThreadIds():
-    update = json.loads(open('F:/keylol-chinaplay-table/update.json', 'r', encoding='utf-8').read())
+    update = json.loads(
+        open('F:/keylol-chinaplay-table/update.json', 'r', encoding='utf-8').read())
     last_tids = update['tids']
     tids = []
     res = requests.get(
@@ -59,20 +60,21 @@ def readNode(node):
 
 def updateData():
     global items
-    history = json.loads(open('F:/keylol-chinaplay-table/data.json', 'r', encoding='utf-8').read())
+    data = json.loads(
+        open('F:/keylol-chinaplay-table/data.json', 'r', encoding='utf-8').read())
     for item in items:
-        if item[0] in history:
+        if item[0] in data:
             hist = [item[1]]
-            hist.extend(history[item[0]]['hist'])
+            hist.extend(data[item[0]]['hist'])
             hist = hist[:10]
-            if item[1][0] <= history[item[0]]['low'][0]:
-                history[item[0]] = {'low': item[1], 'hist': hist}
-            history[item[0]]['hist'] = hist
+            if item[1][0] <= data[item[0]]['low'][0]:
+                data[item[0]] = {'low': item[1], 'hist': hist}
+            else:
+                data[item[0]]['hist'] = hist
         else:
-            history[item[0]] = {'low': [item[1], item[2]],
-                                'hist': [item[1], item[2]]}
+            data[item[0]] = {'low': item[1], 'hist': [item[1]]}
     open('F:/keylol-chinaplay-table/data.json', 'w',
-         encoding='utf-8').write(json.dumps(history, ensure_ascii=False, separators=(',', ':')))
+         encoding='utf-8').write(json.dumps(data, ensure_ascii=False, separators=(',', ':')))
 
 
 def main():
