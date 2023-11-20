@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 def checkThreadIds():
     update = json.loads(
-        open('F:/keylol-chinaplay-table/update.json', 'r', encoding='utf-8').read())
+        open('update.json', 'r', encoding='utf-8').read())
     last_tids = update['tids']
     tids = []
     res = requests.get(
@@ -25,7 +25,7 @@ def checkThreadIds():
                 tids.append(tid)
     tids.extend(last_tids)
     update = {'date': int(time.time()), 'tids': tids[:10]}
-    open('F:/keylol-chinaplay-table/update.json', 'w',
+    open('update.json', 'w',
          encoding='utf-8').write(json.dumps(update, ensure_ascii=False))
 
 
@@ -61,7 +61,7 @@ def readNode(node):
 def updateData():
     global items
     data = json.loads(
-        open('F:/keylol-chinaplay-table/data.json', 'r', encoding='utf-8').read())
+        open('data.json', 'r', encoding='utf-8').read())
     for item in items:
         if item[0] in data:
             hist = [item[1]]
@@ -73,7 +73,7 @@ def updateData():
                 data[item[0]]['hist'] = hist
         else:
             data[item[0]] = {'low': item[1], 'hist': [item[1]]}
-    open('F:/keylol-chinaplay-table/data.json', 'w',
+    open('data.json', 'w',
          encoding='utf-8').write(json.dumps(data, ensure_ascii=False, separators=(',', ':')))
 
 
