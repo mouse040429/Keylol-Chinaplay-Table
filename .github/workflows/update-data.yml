@@ -31,6 +31,6 @@ jobs:
         git config --local user.name "$Name"
         git commit -am "Updated: `date +'%Y-%m-%d %H:%M:%S'` UTC"
     - name: Git Push
-      uses: ad-m/github-push-action@main
+      uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.TOKEN }}
