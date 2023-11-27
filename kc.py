@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 def checkThreadIds():
     update = json.loads(
-        open('update.json', 'r', encoding='utf-8').read())
+        open('F:/keylol-chinaplay-table/update.json', 'r', encoding='utf-8').read())
     last_tids = update['tids']
     tids = []
     res = requests.get(
@@ -26,10 +26,11 @@ def checkThreadIds():
     for tid in reversed(tids):
         items = getThreadContent(tid)
         updateData(items)
-    tids.extend(last_tids)
-    update = {'date': int(time.time()), 'tids': tids[:12]}
-    open('update.json', 'w',
-         encoding='utf-8').write(json.dumps(update, ensure_ascii=False))
+    if len(tids) > 0:
+        tids.extend(last_tids)
+        update = {'date': int(time.time()), 'tids': tids[:12]}
+        open('F:/keylol-chinaplay-table/update.json', 'w',
+            encoding='utf-8').write(json.dumps(update, ensure_ascii=False))
 
 
 def getThreadContent(tid):
@@ -63,7 +64,7 @@ def getThreadContent(tid):
 
 def updateData(items):
     data = json.loads(
-        open('data.json', 'r', encoding='utf-8').read())
+        open('F:/keylol-chinaplay-table/data.json', 'r', encoding='utf-8').read())
     for kv in items:
         if kv[0] in data:
             new_hist = kv[1]
@@ -79,7 +80,7 @@ def updateData(items):
                 data[kv[0]]['hist'] = arr[:10]
         else:
             data[kv[0]] = {'low': kv[1], 'hist': [kv[1]]}
-    open('data.json', 'w',
+    open('F:/keylol-chinaplay-table/data.json', 'w',
          encoding='utf-8').write(json.dumps(data, ensure_ascii=False, separators=(',', ':')))
 
 
