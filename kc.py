@@ -10,7 +10,7 @@ from bs4 import BeautifulSoup
 
 def checkThreadIds():
     update = json.loads(
-        open('F:/keylol-chinaplay-table/update.json', 'r', encoding='utf-8').read())
+        open('update.json', 'r', encoding='utf-8').read())
     last_tids = update['tids']
     tids = []
     res = requests.get(
@@ -29,7 +29,7 @@ def checkThreadIds():
     if len(tids) > 0:
         tids.extend(last_tids)
         update = {'date': int(time.time()), 'tids': tids[:12]}
-        open('F:/keylol-chinaplay-table/update.json', 'w',
+        open('update.json', 'w',
             encoding='utf-8').write(json.dumps(update, ensure_ascii=False))
 
 
@@ -64,7 +64,7 @@ def getThreadContent(tid):
 
 def updateData(items):
     data = json.loads(
-        open('F:/keylol-chinaplay-table/data.json', 'r', encoding='utf-8').read())
+        open('data.json', 'r', encoding='utf-8').read())
     for kv in items:
         if kv[0] in data:
             new_hist = kv[1]
@@ -80,7 +80,7 @@ def updateData(items):
                 data[kv[0]]['hist'] = arr[:10]
         else:
             data[kv[0]] = {'low': kv[1], 'hist': [kv[1]]}
-    open('F:/keylol-chinaplay-table/data.json', 'w',
+    open('data.json', 'w',
          encoding='utf-8').write(json.dumps(data, ensure_ascii=False, separators=(',', ':')))
 
 
