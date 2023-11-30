@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Single repo mirror
-      uses: mouse040429/keylol-chinaplay-table@main
+      uses: Yikun/hub-mirror-action@v1.3
       with:
         src: github/mouse040429
         dst: gitee/mouse040429
