@@ -1,8 +1,6 @@
 name: Sync Gitee
 on:
-  push:
-  pull_request_target:
-    branches: [main]
+  branch_protection_rule:
 jobs:
   run:
     name: Run
