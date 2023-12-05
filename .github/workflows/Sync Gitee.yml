@@ -1,6 +1,8 @@
 name: Sync Gitee
 on:
-  branch_protection_rule:
+  schedule:
+    - cron:  '35 8 * * *'
+  workflow_dispatch:
 jobs:
   run:
     name: Run
