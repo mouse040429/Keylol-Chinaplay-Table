@@ -73,8 +73,6 @@ def getThreadContent(type,tid,date):
     res2 = re.sub(r'</?strong[^>]*>','',re.sub(r'</?span[^>]*>','',res))
     soup = BeautifulSoup(res2, 'html.parser')
     if soup.select_one('.plc .authi em'):
-        date = (re.search(r'\d+-\d+-\d+', soup.select_one('.plc .authi em').text) or re.search(
-            r'\d+-\d+-\d+', soup.select_one('.plc .authi em span').attrs['title'])).group(0)
         floor1 = soup.select_one('.t_fsz > table .t_f')
         if type == 'tcp':
             readNodeCp(floor1)
