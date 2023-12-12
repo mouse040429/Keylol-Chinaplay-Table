@@ -6,9 +6,6 @@ import datetime
 import requests
 from bs4 import BeautifulSoup
 
-
-
-
 def checkThreadIds(type):
     tids = []
     hrefs = {'tcp':'https://keylol.com/forum.php?mod=forumdisplay&fid=234&filter=author&orderby=dateline&typeid=913','t2g':'https://keylol.com/forum.php?mod=forumdisplay&fid=234&filter=author&orderby=dateline&typeid=970'}
@@ -24,9 +21,11 @@ def checkThreadIds(type):
         if result:
             tid = result.group(1)
             if not tid in last_tids:
-                tids.append(tid)
-    for tid in reversed(tids):
-        items = getThreadContent(tid,type)
+                date = (re.search(r'\d+-\d+-\d+', threads[i].select_one('.by-author em').text) or re.search(
+                    r'\d+-\d+-\d+', threads[i].select_one('.by-author span').attrs['title'])).group(0)
+                tids.append([tid,date])
+    for arr in reversed(tids):
+        items = getThreadContent(type,arr[0],arr[1])
         updateData(type,items)
     if len(tids) > 0:
         tids.extend(last_tids)
@@ -35,7 +34,7 @@ def checkThreadIds(type):
              encoding='utf-8').write(json.dumps(update, ensure_ascii=False))
 
 
-def getThreadContent(tid,type):
+def getThreadContent(type,tid,date):
     def readNodeCp(node):
         global discount
         for _node in node.contents:
@@ -68,7 +67,6 @@ def getThreadContent(tid,type):
             else:
                 readNode2g(_node)
 
-    global date
     items = []
 
     res = requests.get('https://keylol.com/t'+tid+'-1-1').text
@@ -115,7 +113,6 @@ def main():
     checkThreadIds('t2g')
 
 
-date = None
 discount = 0
 
 if __name__ == '__main__':
