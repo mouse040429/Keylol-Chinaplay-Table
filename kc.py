@@ -27,7 +27,7 @@ def checkThreadIds(type):
                 tids.append(tid)
                 dates.append(date)
     if len(tids) > 0:
-        for i in reversed(0,len(tids)):
+        for i in reversed(range(0,len(tids))):
             items = getThreadContent(type,tids[i],dates[i])
             updateData(type,items)
         tids.extend(last_tids)
