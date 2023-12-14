@@ -8,6 +8,7 @@ from bs4 import BeautifulSoup
 
 def checkThreadIds(type):
     tids = []
+    dates = []
     hrefs = {'tcp':'https://keylol.com/forum.php?mod=forumdisplay&fid=234&filter=author&orderby=dateline&typeid=913','t2g':'https://keylol.com/forum.php?mod=forumdisplay&fid=234&filter=author&orderby=dateline&typeid=970'}
     
     update = json.loads(
@@ -23,15 +24,16 @@ def checkThreadIds(type):
             if not tid in last_tids:
                 date = (re.search(r'\d+-\d+-\d+', threads[i].select_one('.by-author em').text) or re.search(
                     r'\d+-\d+-\d+', threads[i].select_one('.by-author span').attrs['title'])).group(0)
-                tids.append([tid,date])
-    for arr in reversed(tids):
-        items = getThreadContent(type,arr[0],arr[1])
-        updateData(type,items)
+                tids.append(tid)
+                dates.append(date)
     if len(tids) > 0:
+        for i in reversed(len(tids),0,-1):
+            items = getThreadContent(type,tids[i],dates[i])
+            updateData(type,items)
         tids.extend(last_tids)
         update[type] = tids[:10]
         open('update.json', 'w',
-             encoding='utf-8').write(json.dumps(update, ensure_ascii=False))
+            encoding='utf-8').write(json.dumps(update, ensure_ascii=False))
 
 
 def getThreadContent(type,tid,date):
