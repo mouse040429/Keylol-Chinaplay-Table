@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Single repo mirror
-      uses: Yikun/hub-mirror-action@v1.3
+      uses: Yikun/hub-mirror-action@master
       with:
         src: github/mouse040429
         dst: gitee/mouse040429
